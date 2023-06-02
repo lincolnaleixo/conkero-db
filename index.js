@@ -3,6 +3,8 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import mongoose from 'mongoose'
+import fs from 'node:fs'
+import https from 'node:https'
 import { checkPermissions } from './middleware/checkPermissions.js'
 import { errorHandler } from './middleware/errorHandler.js'
 import logger from './middleware/logger.js'
@@ -28,4 +30,11 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   .catch(err => console.log(err))
 
 const port = process.env.PORT || 5000
-app.listen(port, () => console.log(`Server is running on port ${port}`))
+
+// Create a https server and pass in the Express app
+const httpsServer = https.createServer({
+  key: fs.readFileSync('/etc/letsencrypt/live/omegabase.bealsa.com/privkey.pem', 'utf8'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/omegabase.bealsa.com/fullchain.pem', 'utf8')
+}, app)
+
+httpsServer.listen(port, () => console.log(`HTTPS Server is running on port ${port}`))
