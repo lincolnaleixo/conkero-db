@@ -38,3 +38,7 @@ https.createServer(options, app)
   .listen(443, () => {
     console.log('HTTPS Server running on port 443')
   })
+
+// TODO local testing validation with env variable
+// const port = process.env.PORT || 5000
+// app.listen(port, () => console.log(`Server is running on port ${port}`))
