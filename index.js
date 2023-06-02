@@ -29,12 +29,12 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   .then(() => console.log('MongoDB connected…'))
   .catch(err => console.log(err))
 
-const port = process.env.PORT || 5000
-
-// Create a https server and pass in the Express app
-const httpsServer = https.createServer({
+const options = {
   key: fs.readFileSync('/etc/letsencrypt/live/omegabase.bealsa.com/privkey.pem', 'utf8'),
   cert: fs.readFileSync('/etc/letsencrypt/live/omegabase.bealsa.com/fullchain.pem', 'utf8')
-}, app)
+}
 
-httpsServer.listen(port, () => console.log(`HTTPS Server is running on port ${port}`))
+https.createServer(options, app)
+  .listen(443, () => {
+    console.log('HTTPS Server running on port 443')
+  })
