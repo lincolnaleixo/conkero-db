@@ -13,6 +13,7 @@ parserOptions:
 rules:
   node/no-process-env: off
   node/no-process-exit: off
+  node/callback-return: off
   no-process-exit: off
   curly:
     - error
@@ -33,7 +34,7 @@ rules:
   #   - minItems: 2
   max-lines-per-function:
     - error
-    - max: 50
+    - max: 75
   newline-per-chained-call:
     - error
     - ignoreChainWithDepth: 1
